@@ -22,11 +22,11 @@
 
 body {
   font-family: var(--font-primary);
-  /* Premium Ivory Pearl Fine Art Paper with Vignette for Depth */
-  background-color: #fbf9f6; 
+  /* Premium Warm Champagne / Blush Fine Art Paper */
+  background-color: #f4eae1; 
   background-image: 
-    radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.9) 0%, transparent 60%),
-    radial-gradient(circle at 50% 50%, transparent 30%, rgba(0, 0, 0, 0.15) 150%),
+    radial-gradient(circle at 50% 0%, rgba(255, 250, 245, 0.6) 0%, transparent 70%),
+    radial-gradient(circle at 50% 50%, transparent 40%, rgba(139, 100, 85, 0.2) 150%),
     url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
   color: var(--color-text-main);
   overflow-x: hidden;
@@ -276,6 +276,25 @@ body {
   margin: 0 1rem;
 }
 
+/* Phase 5: Dynamic Gold Foil Shader */
+.gold-foil-text {
+  color: transparent !important;
+  background-clip: text;
+  -webkit-background-clip: text;
+  background-image: linear-gradient(
+    var(--foil-angle, 45deg),
+    #937119 0%,
+    #d4af37 25%,
+    #ffebb3 50%,
+    #d4af37 75%,
+    #937119 100%
+  );
+  background-size: 300% auto;
+  background-position: var(--foil-pos, 0%) center;
+  filter: drop-shadow(0 4px 12px rgba(212, 175, 55, 0.4));
+  transition: background-position 0.1s ease-out, background-image 0.1s ease-out;
+}
+
 /* =========================================
    BENTO LAYOUT (CLAYMORPHISM + GLASSMORPHISM)
 ========================================= */
@@ -314,6 +333,11 @@ body {
   text-align: center;
   transition: box-shadow 0.4s ease; /* Removed transform to stop fighting GSAP ScrollTrigger */
   position: relative;
+  
+  /* Critical GPU Acceleration for heavy blurs */
+  will-change: transform, backdrop-filter;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 /* Phase 4: Reactive Surface Lighting */
@@ -340,6 +364,30 @@ body {
 .bento-box > * {
   position: relative;
   z-index: 2; /* ensure text sits above lighting layer */
+}
+
+/* Phase 2 V2: Save the Date Button */
+.save-date-btn {
+  margin-top: 1.5rem;
+  background: transparent;
+  border: 1px solid rgba(19, 36, 72, 0.4);
+  color: #132448;
+  padding: 0.8rem 2.5rem;
+  border-radius: 30px;
+  font-size: 0.95rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  position: relative;
+  font-weight: 600;
+}
+.save-date-btn:hover {
+  background: #132448;
+  color: #fbf9f6;
+  box-shadow: 0 10px 25px rgba(19, 36, 72, 0.2);
+  transform: translateY(-2px);
+  border-color: #132448;
 }
 
 .bento-box:hover {

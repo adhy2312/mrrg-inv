@@ -56,10 +56,10 @@ export default function ParticleBackground() {
         type: "circle",
       },
       size: {
-        value: { min: 1, max: 3 },
+        value: { min: 1, max: 2 }, // Slightly smaller particles for elegance
       },
     },
-    detectRetina: true,
+    detectRetina: false, // Critical GPU Optimization: Prevents rendering at 3x resolution on high-DPI screens
   };
 
   if (init) {
