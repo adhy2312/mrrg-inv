@@ -1,0 +1,509 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Great+Vibes&display=swap');
+
+:root {
+  /* Splash Screen / Dark Theme */
+  --color-splash-bg: #090e17; /* Deepest Royal Navy */
+  --color-splash-glow: #1a2a44;
+  
+  /* Main Invitation / Light Theme */
+  --color-bg-primary: #fcfaf8; /* Rich Cream */
+  --color-bg-secondary: #f3efeb; /* Slightly darker cream for depth */
+  --color-text-main: #132448; /* Deep Royal Navy Text */
+  --color-gold: #cfaa70; /* Metallic Gold */
+  --color-gold-light: #e5cfa3;
+  --color-accent-lavender: #8b79a8; /* Soft Lavender from original card */
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-primary);
+  /* Premium Ivory Pearl Fine Art Paper with Vignette for Depth */
+  background-color: #fbf9f6; 
+  background-image: 
+    radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.9) 0%, transparent 60%),
+    radial-gradient(circle at 50% 50%, transparent 30%, rgba(0, 0, 0, 0.15) 150%),
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
+  color: var(--color-text-main);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Typography */
+.font-cinzel { font-family: 'Cinzel', serif; }
+.font-playfair { font-family: 'Playfair Display', serif; }
+.font-primary { font-family: 'Cormorant Garamond', serif; }
+.font-inter { font-family: 'Cormorant Garamond', serif; } /* Re-mapped for ease */
+.font-script { font-family: 'Alex Brush', cursive; }
+
+.text-gold { color: var(--color-gold); }
+.text-navy { color: var(--color-text-main); }
+.text-center { text-align: center; }
+
+/* Utilities */
+.app-container {
+  position: relative;
+  width: 100vw;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.full-screen {
+  width: 100%;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* =========================================
+   ELEGANT SPLASH SCREEN (THREAD UNRAVEL)
+========================================= */
+.splash-screen {
+  background: radial-gradient(circle at center, #111a2f 0%, #060a14 100%);
+  color: var(--color-gold);
+  z-index: 50;
+  position: relative;
+  overflow: hidden;
+}
+
+.splash-screen::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  opacity: 0.15;
+  mix-blend-mode: screen;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.card-wrapper {
+  position: relative;
+  width: 320px;
+  height: 220px;
+  cursor: pointer;
+  perspective: 1200px;
+  margin-bottom: 3rem;
+  /* Disable tap highlight on mobile */
+  -webkit-tap-highlight-color: transparent;
+}
+
+.envelope-inside {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #fdfaf7;
+  border-radius: 4px;
+  box-shadow: inset 0 0 20px rgba(0,0,0,0.1);
+  background-image: linear-gradient(135deg, rgba(207, 170, 112, 0.05) 25%, transparent 25%, transparent 50%, rgba(207, 170, 112, 0.05) 50%, rgba(207, 170, 112, 0.05) 75%, transparent 75%, transparent);
+  background-size: 10px 10px;
+}
+
+.envelope-back {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #e8e2dc;
+  border-radius: 4px;
+  box-shadow: 0 30px 60px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255,255,255,0.4);
+}
+
+.envelope-flap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform-origin: top;
+  z-index: 3;
+  transform-style: preserve-3d;
+}
+
+.flap-svg, .front-svg {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  filter: drop-shadow(0 8px 12px rgba(0,0,0,0.25));
+}
+
+.envelope-front {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  border-radius: 4px;
+  overflow: hidden;
+  background-color: #f3efeb;
+}
+
+.thread-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 4;
+  pointer-events: none;
+}
+
+.thread-line {
+  fill: none;
+  stroke: url(#threadGrad);
+  stroke-linecap: round;
+  filter: drop-shadow(0 2px 2px rgba(0,0,0,0.4));
+}
+
+.main-thread {
+  stroke-width: 3;
+}
+
+.knot-group {
+  transition: transform 0.3s ease;
+}
+
+.card-wrapper:hover .knot-group {
+  transform: scale(1.05) translateZ(0);
+}
+
+.splash-instruction {
+  font-size: 0.8rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-top: 2rem;
+  opacity: 0.7;
+  animation: pulseOpacity 2s infinite ease-in-out;
+}
+
+/* =========================================
+   CINEMATIC INVITATION
+========================================= */
+.invitation-wrapper {
+  width: 100%;
+  min-height: 100%;
+  background: transparent;
+  position: relative;
+  overflow-x: hidden;
+  padding-bottom: 5rem;
+}
+
+.particles-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.section {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 4rem 2rem;
+  position: relative;
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  border-radius: 32px;
+  padding: 4rem 3rem;
+  box-shadow: 0 30px 60px rgba(19, 36, 72, 0.08), inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+  max-width: 800px;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s ease;
+}
+
+.glass-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 40px 80px rgba(19, 36, 72, 0.12), inset 0 0 0 1px rgba(255, 255, 255, 0.6);
+}
+
+.glass-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, transparent, var(--color-gold), transparent);
+}
+
+/* Elegant Components */
+.ornate-divider {
+  width: 100%;
+  max-width: 300px;
+  height: 20px;
+  margin: 2rem auto;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 10" preserveAspectRatio="none"><path d="M0,5 Q25,10 50,5 T100,5" fill="none" stroke="%23cfaa70" stroke-width="1"/></svg>');
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.couple-names {
+  font-size: clamp(4rem, 8vw, 6rem);
+  line-height: 1.1;
+  color: var(--color-text-main);
+  margin-bottom: 1rem;
+}
+
+.ampersand {
+  font-size: clamp(3rem, 6vw, 4rem);
+  color: var(--color-gold);
+  margin: 0 1rem;
+}
+
+/* =========================================
+   BENTO LAYOUT (CLAYMORPHISM + GLASSMORPHISM)
+========================================= */
+.bento-container {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-auto-rows: minmax(150px, auto);
+  gap: 1.5rem;
+  max-width: 900px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+  perspective: 1200px;
+  position: relative;
+  z-index: 10;
+}
+
+.bento-box {
+  background-color: rgba(255, 246, 248, 0.7);
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.20'/%3E%3C/svg%3E");
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-radius: 20px;
+  box-shadow: 
+    0 30px 60px rgba(0, 0, 0, 0.15),
+    0 10px 20px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  padding: 3rem 2rem;
+  
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  transition: box-shadow 0.4s ease; /* Removed transform to stop fighting GSAP ScrollTrigger */
+  position: relative;
+}
+
+/* Phase 4: Reactive Surface Lighting */
+.bento-box::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none;
+  border-radius: inherit; /* Prevent lighting from bleeding outside the frosted glass */
+  background: radial-gradient(
+    600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(255, 255, 255, 0.4),
+    transparent 40%
+  );
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.bento-box:hover::before {
+  opacity: 1;
+}
+
+.bento-box > * {
+  position: relative;
+  z-index: 2; /* ensure text sits above lighting layer */
+}
+
+.bento-box:hover {
+  transform: translateY(-5px);
+  box-shadow: 
+    35px 35px 70px rgba(139, 121, 168, 0.15),
+    -10px -10px 20px rgba(255, 255, 255, 0.9),
+    inset -10px -10px 20px rgba(139, 121, 168, 0.08),
+    inset 10px 10px 20px rgba(255, 255, 255, 1);
+}
+
+/* Grid Assignments */
+.bento-header { grid-column: span 12; }
+.bento-couple { grid-column: span 12; padding: 4rem 2rem; }
+.bento-bride-parents { grid-column: span 12; }
+.bento-details { grid-column: span 7; }
+.bento-qr { grid-column: span 5; }
+.bento-footer { grid-column: span 12; }
+
+@media (max-width: 768px) {
+  .bento-details { grid-column: span 12; }
+  .bento-qr { grid-column: span 12; }
+}
+
+.text-royal-blue {
+  color: #1a365d; /* Deeper classic blue matching the text on the screenshot */
+}
+
+.details-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  margin-top: 3rem;
+  width: 100%;
+}
+
+.detail-row {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 450px;
+}
+
+.detail-icon {
+  color: #1a365d;
+  flex-shrink: 0;
+  stroke-width: 1.5;
+}
+
+.diamond-divider {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #1a365d;
+  font-size: 1.2rem;
+  width: 100%;
+  max-width: 450px;
+  margin: 0.5rem 0;
+}
+
+.diamond-divider span {
+  flex-grow: 1;
+  height: 1px;
+  background-color: #1a365d;
+  opacity: 0.8;
+}
+
+.wedding-rings-container {
+  width: 100%;
+  height: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 4rem;
+  overflow: hidden;
+}
+
+.wedding-rings {
+  width: 200px;
+  height: 100px;
+}
+
+/* Floral corners using elegant radial gradients */
+.royal-border {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  opacity: 0.4;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.royal-border.top-left {
+  top: 0;
+  left: 0;
+  background: radial-gradient(circle at top left, var(--color-accent-lavender) 0%, transparent 70%);
+}
+.royal-border.top-right {
+  top: 0;
+  right: 0;
+  background: radial-gradient(circle at top right, var(--color-accent-lavender) 0%, transparent 70%);
+}
+.royal-border.bottom-left {
+  bottom: 0;
+  left: 0;
+  background: radial-gradient(circle at bottom left, var(--color-accent-lavender) 0%, transparent 70%);
+}
+.royal-border.bottom-right {
+  bottom: 0;
+  right: 0;
+  background: radial-gradient(circle at bottom right, var(--color-accent-lavender) 0%, transparent 70%);
+}
+
+/* Animations */
+@keyframes slowSpin {
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes pulseOpacity {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+
+/* Reveal classes for ScrollTrigger */
+.reveal-text {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+}
+
+/* Premium Card inside envelope */
+.premium-card-container {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  right: 5px;
+  bottom: 5px;
+  z-index: 1; /* Between back and front */
+  overflow: hidden;
+  border-radius: 2px;
+}
+
+.premium-card {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #ffffff, #fdfbf8);
+  border: 1px solid rgba(207, 170, 112, 0.4);
+  box-shadow: inset 0 0 20px rgba(0,0,0,0.02);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.premium-card-border {
+  position: absolute;
+  top: 10px; left: 10px; right: 10px; bottom: 10px;
+  border: 1px solid rgba(207, 170, 112, 0.5);
+}
+
+.premium-card-text {
+  font-family: 'Cinzel', serif;
+  color: #8a6e3c;
+  font-size: 1.4rem;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+}
