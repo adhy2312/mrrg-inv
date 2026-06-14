@@ -1,7 +1,34 @@
-import { useRef, useMemo } from 'react';
+import { useRef, useMemo, useState } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { Instances, Instance } from '@react-three/drei';
+
+function generatePetals(count) {
+  const arr = [];
+  for (let i = 0; i < count; i++) {
+    arr.push({
+      position: [
+        (Math.random() - 0.5) * 15, // wide X spread
+        Math.random() * 20 + 5,      // start high above camera
+        (Math.random() - 0.5) * 10 - 2 // deep Z spread
+      ],
+      rotation: [
+        Math.random() * Math.PI,
+        Math.random() * Math.PI,
+        Math.random() * Math.PI
+      ],
+      speed: {
+        y: Math.random() * 0.03 + 0.015,
+        rotX: Math.random() * 0.02 - 0.01,
+        rotY: Math.random() * 0.02 - 0.01,
+        rotZ: Math.random() * 0.02 - 0.01,
+        driftX: Math.random() * 0.01 - 0.005
+      },
+      scale: Math.random() * 0.6 + 0.4
+    });
+  }
+  return arr;
+}
 
 export default function FallingPetals({ count = 80 }) {
   const groupRef = useRef();
@@ -23,33 +50,8 @@ export default function FallingPetals({ count = 80 }) {
     return geometry;
   }, []);
 
-  // Pre-calculate random properties for each petal instance
-  const petals = useMemo(() => {
-    const arr = [];
-    for (let i = 0; i < count; i++) {
-      arr.push({
-        position: [
-          (Math.random() - 0.5) * 15, // wide X spread
-          Math.random() * 20 + 5,      // start high above camera
-          (Math.random() - 0.5) * 10 - 2 // deep Z spread
-        ],
-        rotation: [
-          Math.random() * Math.PI,
-          Math.random() * Math.PI,
-          Math.random() * Math.PI
-        ],
-        speed: {
-          y: Math.random() * 0.03 + 0.015,
-          rotX: Math.random() * 0.02 - 0.01,
-          rotY: Math.random() * 0.02 - 0.01,
-          rotZ: Math.random() * 0.02 - 0.01,
-          driftX: Math.random() * 0.01 - 0.005
-        },
-        scale: Math.random() * 0.6 + 0.4
-      });
-    }
-    return arr;
-  }, [count]);
+  // Pre-calculate random properties for each petal instance safely
+  const [petals] = useState(() => generatePetals(count));
 
   const refs = useRef([]);
 
