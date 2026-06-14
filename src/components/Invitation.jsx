@@ -309,7 +309,7 @@ END:VCALENDAR`;
         
         {/* Dedicated Rings Climax Space (Outside Bento Boxes) */}
         <div style={{ height: '500px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', position: 'relative', zIndex: 10, padding: '0 1rem' }}>
-           <h1 className="font-script gold-foil-text" style={{ fontSize: 'clamp(4.5rem, 18vw, 8rem)', margin: 0 }}>A & R</h1>
+           <h1 className="font-script gold-foil-text" style={{ fontSize: 'clamp(4.5rem, 18vw, 8rem)', margin: 0, paddingRight: '0.15em' }}>A & R</h1>
            
            {/* Date and Checkmark Container */}
            <div style={{ position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center', height: '60px', marginTop: '1rem' }}>
