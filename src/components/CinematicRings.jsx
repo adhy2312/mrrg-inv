@@ -3,6 +3,7 @@ import { Canvas } from '@react-three/fiber';
 import { Environment, Sparkles, Lightformer, Float } from '@react-three/drei';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import FallingPetals from './FallingPetals';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -144,6 +145,9 @@ function RingsScene() {
         <meshBasicMaterial color="#f5e0a3" transparent opacity={0} depthWrite={false} />
       </mesh>
       
+      {/* Cinematic 3D Rose Petals */}
+      <FallingPetals count={80} />
+
       <group ref={sparklesRef} position={[0, -2.5, 0]} visible={false}>
          <Sparkles count={50} scale={5} size={4} speed={0.4} color="#f5e0a3" opacity={0.6} />
       </group>

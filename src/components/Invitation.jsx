@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -13,6 +13,36 @@ export default function Invitation() {
   const checkRef = useRef(null);
   const btnRef = useRef(null);
   const [isSaved, setIsSaved] = useState(false);
+
+  // Dynamic Gold Foil Shimmer Logic (Gyroscope & Mouse)
+  useEffect(() => {
+    const handleOrientation = (e) => {
+      const gamma = e.gamma || 0; 
+      const beta = e.beta || 0; 
+
+      const foilX = 50 + (gamma / 90) * 50; 
+      const foilAngle = 45 + (beta / 90) * 45; 
+      
+      document.documentElement.style.setProperty('--foil-pos', `${foilX}%`);
+      document.documentElement.style.setProperty('--foil-angle', `${foilAngle}deg`);
+    };
+
+    const handleMouseMove = (e) => {
+      const xPos = e.clientX / window.innerWidth;
+      const yPos = e.clientY / window.innerHeight;
+      
+      document.documentElement.style.setProperty('--foil-pos', `${xPos * 100}%`);
+      document.documentElement.style.setProperty('--foil-angle', `${45 + (yPos * 45)}deg`);
+    };
+
+    window.addEventListener('deviceorientation', handleOrientation);
+    window.addEventListener('mousemove', handleMouseMove);
+
+    return () => {
+      window.removeEventListener('deviceorientation', handleOrientation);
+      window.removeEventListener('mousemove', handleMouseMove);
+    };
+  }, []);
 
   const handleSaveDate = () => {
     if (isSaved) return;
@@ -279,7 +309,7 @@ END:VCALENDAR`;
         
         {/* Dedicated Rings Climax Space (Outside Bento Boxes) */}
         <div style={{ height: '500px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', position: 'relative', zIndex: 10, padding: '0 1rem' }}>
-           <h1 className="font-script text-royal-blue" style={{ fontSize: 'clamp(4.5rem, 18vw, 8rem)', margin: 0, textShadow: '0 10px 30px rgba(255,255,255,0.8)' }}>A & R</h1>
+           <h1 className="font-script gold-foil-text" style={{ fontSize: 'clamp(4.5rem, 18vw, 8rem)', margin: 0 }}>A & R</h1>
            
            {/* Date and Checkmark Container */}
            <div style={{ position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center', height: '60px', marginTop: '1rem' }}>

@@ -92,6 +92,11 @@ export default function SplashScreen({ onOpen }) {
     setIsAnimating(true);
     setHasSnapped(true);
 
+    // Request iOS Gyroscope Permission on User Gesture
+    if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+      DeviceOrientationEvent.requestPermission().catch(console.error);
+    }
+
     const tl = gsap.timeline();
 
     // 1. Thread violently snaps
